@@ -1,0 +1,43 @@
+@page "/Error"
+@model ErrorModel
+@{
+    ViewData["Title"] = "Hata";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="text-center text-white">
+        <div class="mb-4">
+            <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #ffc107;"></i>
+        </div>
+        <h1 class="display-4 mb-3">Bir Hata Oluştu</h1>
+        <p class="lead mb-4">Üzgünüz, bir şeyler yanlış gitti. Lütfen daha sonra tekrar deneyin.</p>
+        
+        @if (Model.ShowRequestId)
+        {
+            <p class="mb-3">
+                <small class="text-light">
+                    <strong>İstek ID:</strong> <code style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 3px;">@Model.RequestId</code>
+                </small>
+            </p>
+        }
+        
+        <a href="/" class="btn btn-primary btn-lg">
+            <i class="fas fa-home"></i> Ana Sayfaya Dön
+        </a>
+    </div>
+</div>
+
+@functions {
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public class ErrorModel : Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+    {
+        public string? RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+        public void OnGet()
+        {
+            RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        }
+    }
+}
