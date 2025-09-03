@@ -1,0 +1,23 @@
+# Development override - automatically loaded by docker-compose
+# Bu dosya geliştirme ortamı için ek ayarlar içerir
+
+version: '3.8'
+
+services:
+  api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - OpenAI__ApiKey= your-open-ai-api-key-here
+    volumes:
+      - ./CustomerSupport:/src/CustomerSupport
+      - ./logs:/app/logs
+    # Hot reload için (opsiyonel)
+    # command: ["dotnet", "watch", "--project", "/src/CustomerSupport", "run", "--urls", "http://0.0.0.0:8080"]
+    
+  postgres:
+    # Development için aynı ayarlar
+    environment:
+      POSTGRES_DB: customersupport
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
