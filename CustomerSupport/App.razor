@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using CustomerSupport.Components
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Sayfa Bulunamadı</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+                <div class="text-center">
+                    <h1 class="display-4">404</h1>
+                    <p class="lead">Aradığınız sayfa bulunamadı.</p>
+                    <a href="/" class="btn btn-primary">Ana Sayfa</a>
+                </div>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>
