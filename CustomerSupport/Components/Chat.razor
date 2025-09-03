@@ -1,0 +1,437 @@
+@page "/"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Web
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+@inject ILogger<Chat> Logger
+@inject NavigationManager Navigation
+
+<PageTitle>AI Müşteri Destek</PageTitle>
+
+@if (!_isChatStarted)
+{
+    <!-- Mikro Yazılım Logo Header -->
+    <div class="mikro-logo-header">
+        <a href="https://www.mikro.com.tr" target="_blank" class="mikro-logo">
+           
+            <div class="mikro-logo-text">
+                <div class="mikro-logo-title">Mikro Yazılım</div>
+                <div class="mikro-logo-subtitle">AI Müşteri Destek</div>
+            </div>
+        </a>
+    </div>
+
+    <div class="welcome-screen">
+        <div class="welcome-card">
+            <h1><i class="fas fa-robot"></i></h1>
+            <p>Mikro Yazılım müşteri destek ekibinden selamlar! Mikro RUN, Mikro JUMP, Mikro FLY, Mikro Müşavir ve Paraşüt ürünlerimizle ilgili size yardımcı olmak için buradayım. Sohbete başlamak için adınızı girin.</p>
+            
+            <form @onsubmit="StartChat" @onsubmit:preventDefault="true">
+                <div class="name-input-container">
+                    <input @ref="nameInput" @bind="_userName" @oninput="OnNameInputChanged" id="nameInput"
+                           class="name-input" type="text" placeholder="Adınızı girin..." 
+                           disabled="@_isConnecting" 
+                           @onkeydown="OnNameInputKeyDown" />
+                </div>
+                
+                <button type="submit" class="start-chat-btn" disabled="@(_isConnecting || string.IsNullOrWhiteSpace(_userName))">
+                @if (_isConnecting)
+                {
+                    <span><i class="fas fa-spinner fa-spin"></i> Bağlanıyor<span class="loading-dots"></span></span>
+                }
+                else
+                {
+                    <span><i class="fas fa-comments"></i> Sohbeti Başlat</span>
+                }
+            </button>
+            </form>
+        </div>
+        
+        <!-- Development Footer -->
+        <div class="development-footer">
+            <p>Development: <a href="https://www.linkedin.com/in/ozgurgelekci/" target="_blank">Özgür Gelekçi</a></p>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Mikro Yazılım Logo Header (Chat Mode) -->
+    <div class="mikro-logo-header">
+        <a href="https://www.mikro.com.tr" target="_blank" class="mikro-logo">
+            <div class="mikro-logo-icon">M</div>
+            <div class="mikro-logo-text">
+                <div class="mikro-logo-title">Mikro Yazılım</div>
+                <div class="mikro-logo-subtitle">AI Müşteri Destek</div>
+            </div>
+        </a>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <i class="fas fa-headset"></i> Mikro Yazılım Destek - @_userName
+            <button class="btn btn-sm btn-outline-light float-end" @onclick="EndChat">
+                <i class="fas fa-times"></i> Çık
+            </button>
+        </div>
+        
+        <div class="chat-messages" @ref="messagesContainer">
+            @foreach (var message in _messages)
+            {
+                <div class="message @(message.IsUser ? "user" : "ai")">
+                    <div class="message-bubble">
+                        <div class="message-content">@((MarkupString)message.Content)</div>
+                        <div class="message-time">
+                            @message.Timestamp.ToString("HH:mm")
+                        </div>
+                    </div>
+                </div>
+            }
+            
+            @if (_isTyping)
+            {
+                <div class="message ai">
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        <div class="chat-input-container">
+            <form @onsubmit="SendMessage" @onsubmit:preventDefault="true">
+                <div class="chat-input">
+                    <input @ref="messageInput" @bind="_messageInput" @oninput="OnMessageInputChanged" id="messageInput"
+                           class="form-control" type="text" placeholder="Mesajınızı yazın..." 
+                           disabled="@_isSending"
+                           @onkeydown="OnMessageInputKeyDown" />
+                    <button type="submit" class="btn btn-primary" disabled="@(_isSending || string.IsNullOrWhiteSpace(_messageInput))">
+                    @if (_isSending)
+                    {
+                        <i class="fas fa-spinner fa-spin"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-paper-plane"></i>
+                    }
+                </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Development Footer (Chat Mode) -->
+        <div class="chat-development-footer">
+            <p>Development: <a href="https://www.linkedin.com/in/ozgurgelekci/" target="_blank">Özgür Gelekçi</a></p>
+        </div>
+    </div>
+}
+
+@code {
+    private HubConnection? _hubConnection;
+    private string _userName = "";
+    private string _messageInput = "";
+    private string _conversationId = "";
+    private bool _isChatStarted = false;
+    private bool _isConnecting = false;
+    private bool _isSending = false;
+    private bool _isTyping = false;
+    private List<ChatMessage> _messages = new();
+    private ElementReference messagesContainer;
+    private ElementReference nameInput;
+    private ElementReference messageInput;
+    private bool _firstRender = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var hubUrl = Navigation.ToAbsoluteUri("/chathub");
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl(hubUrl)
+                .WithAutomaticReconnect()
+                .Build();
+
+            _hubConnection.On<string, string, string>("ReceiveMessage", async (conversationId, sender, message) =>
+            {
+                var isUser = sender == "User";
+                
+                // User mesajlarını ignore et (client-side'da zaten ekliyoruz)
+                if (isUser) return;
+                
+                // AI mesajını ekle
+                var chatMessage = new ChatMessage
+                {
+                    Content = message,
+                    IsUser = false,
+                    Timestamp = DateTime.Now
+                };
+
+                _messages.Add(chatMessage);
+                _isTyping = false; // AI cevabı geldi, animasyonu durdur
+                
+                await InvokeAsync(StateHasChanged);
+                await ScrollToBottom();
+            });
+
+            _hubConnection.Reconnecting += (error) =>
+            {
+                Logger.LogWarning("SignalR bağlantısı yeniden kuruluyor: {Error}", error?.Message);
+                return Task.CompletedTask;
+            };
+
+            _hubConnection.Reconnected += (connectionId) =>
+            {
+                Logger.LogInformation("SignalR bağlantısı yeniden kuruldu: {ConnectionId}", connectionId);
+                return Task.CompletedTask;
+            };
+
+            _hubConnection.Closed += async (error) =>
+            {
+                if (error != null)
+                {
+                    Logger.LogError("SignalR bağlantısı kesildi: {Error}", error.Message);
+                }
+                await Task.Delay(new Random().Next(0, 5) * 1000);
+                if (_hubConnection.State == HubConnectionState.Disconnected)
+                {
+                    await _hubConnection.StartAsync();
+                }
+            };
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "SignalR Hub bağlantısı kurulurken hata oluştu");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        
+        try
+        {
+            if (_firstRender && firstRender && !_isChatStarted)
+            {
+                // İlk render'da isim input'una focus yap
+                await nameInput.FocusAsync();
+                _firstRender = false;
+            }
+            else if (_isChatStarted)
+            {
+                // Chat başladıysa mesaj input'una focus yap
+                await messageInput.FocusAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "Focus işlemi sırasında hata oluştu");
+        }
+    }
+
+    private async Task StartChat()
+    {
+        if (string.IsNullOrWhiteSpace(_userName) || _isConnecting)
+            return;
+
+        try
+        {
+            _isConnecting = true;
+            StateHasChanged();
+
+            if (_hubConnection?.State != HubConnectionState.Connected)
+            {
+                await _hubConnection!.StartAsync();
+            }
+
+            _conversationId = await _hubConnection.InvokeAsync<string>("StartSession", _userName);
+            _isChatStarted = true;
+
+            Logger.LogInformation("Sohbet başlatıldı. ConversationId: {ConversationId}, Kullanıcı: {UserName}", 
+                _conversationId, _userName);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Sohbet başlatılırken hata oluştu");
+            await JSRuntime.InvokeVoidAsync("alert", "Sohbet başlatılırken bir hata oluştu. Lütfen sayfayı yenileyin.");
+        }
+        finally
+        {
+            _isConnecting = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(_messageInput) || _isSending || _hubConnection?.State != HubConnectionState.Connected)
+            return;
+
+        try
+        {
+            _isSending = true;
+            var message = _messageInput;
+            _messageInput = "";
+            
+            // Kullanıcı mesajını hemen ekle
+            var userMessage = new ChatMessage
+            {
+                Content = message,
+                IsUser = true,
+                Timestamp = DateTime.Now
+            };
+            _messages.Add(userMessage);
+            
+            // AI düşünüyor animasyonunu başlat
+            _isTyping = true;
+            
+            StateHasChanged();
+            await ScrollToBottom();
+            
+            await _hubConnection.InvokeAsync("SendMessage", _conversationId, message);
+            
+            Logger.LogInformation("Mesaj gönderildi: {Message}", message);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Mesaj gönderilirken hata oluştu");
+            _isTyping = false; // Hata durumunda animasyonu durdur
+            await JSRuntime.InvokeVoidAsync("alert", "Mesaj gönderilirken bir hata oluştu.");
+        }
+        finally
+        {
+            _isSending = false;
+            StateHasChanged();
+            
+            // Mesaj gönderildikten sonra input'a focus geri dön
+            try
+            {
+                await messageInput.FocusAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogWarning(ex, "Mesaj input focus işlemi sırasında hata oluştu");
+            }
+            
+            // 10 saniye sonra animasyonu otomatik durdur (eğer hala çalışıyorsa)
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(10000);
+                if (_isTyping)
+                {
+                    _isTyping = false;
+                    await InvokeAsync(StateHasChanged);
+                    Logger.LogWarning("AI yanıt animasyonu 10 saniye sonra otomatik durduruldu");
+                }
+            });
+        }
+    }
+
+    private async Task EndChat()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(_conversationId) && _hubConnection?.State == HubConnectionState.Connected)
+            {
+                await _hubConnection.InvokeAsync("EndSession", _conversationId);
+            }
+
+            _isChatStarted = false;
+            _conversationId = "";
+            _messages.Clear();
+            _userName = "";
+            _messageInput = "";
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Sohbet sonlandırılırken hata oluştu");
+        }
+    }
+
+
+
+    private async Task ScrollToBottom()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("autoScrollToBottom", messagesContainer);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "Scroll işlemi sırasında hata oluştu");
+        }
+    }
+
+    private async Task ScrollToBottomImmediate()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("scrollToBottomImmediate", messagesContainer);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "Immediate scroll işlemi sırasında hata oluştu");
+        }
+    }
+
+    // Real-time input tracking ve Enter key handling
+    private void OnNameInputChanged(ChangeEventArgs e)
+    {
+        _userName = e.Value?.ToString() ?? "";
+        StateHasChanged(); // Buton durumunu real-time güncelle
+    }
+
+    private async Task OnNameInputKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(_userName) && !_isConnecting)
+        {
+            await StartChat();
+        }
+    }
+
+    private void OnMessageInputChanged(ChangeEventArgs e)
+    {
+        _messageInput = e.Value?.ToString() ?? "";
+        StateHasChanged(); // Buton durumunu real-time güncelle
+    }
+
+    private async Task OnMessageInputKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(_messageInput) && !_isSending)
+        {
+            await SendMessage();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(_conversationId))
+            {
+                await EndChat();
+            }
+
+            if (_hubConnection is not null)
+            {
+                await _hubConnection.DisposeAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Component dispose edilirken hata oluştu");
+        }
+    }
+
+    private class ChatMessage
+    {
+        public string Content { get; set; } = "";
+        public bool IsUser { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+}
