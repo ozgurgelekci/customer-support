@@ -41,10 +41,10 @@
 - **🤖 AI Intelligence** - OpenAI GPT-4o-mini ile akıllı yanıt üretimi
 - **📚 RAG Technology** - Contextual, doküman bazlı akıllı cevaplar
 - **💰 Token Optimization** - Off-topic soru filtreleme ile %90+ maliyet tasarrufu
-- **🇹🇷 Türkçe Optimize** - Mikro Yazılım ürünleri için özelleştirilmiş AI
+- **🇹🇷 Türkçe Optimize** - Türkçe dil desteği ile optimize edilmiş AI
 
 ### 🎨 **Kullanıcı Deneyimi**
-- **Modern UI/UX** - Mikro Yazılım kurumsal kimliği ile tasarlanmış
+- **Modern UI/UX** - Modern ve responsive tasarım
 - **Mobile Responsive** - Tüm cihazlarda mükemmel görünüm  
 - **Real-time Typing** - WhatsApp tarzı yazma göstergeleri
 - **Auto-scroll** - Otomatik mesaj takibi
@@ -241,7 +241,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 <div align="center">
 
 #### 🏠 Welcome Screen
-*Mikro Yazılım kurumsal kimliği ile tasarlanmış karşılama ekranı*
+*Modern ve kullanıcı dostu karşılama ekranı*
 
 #### 💬 Chat Interface  
 *Real-time messaging ile WhatsApp tarzı chat deneyimi*
@@ -300,7 +300,7 @@ AI: 🧠 Comprehensive yanıt - Mikro ürün odaklı
 - **0-100 Chunk Quality Score** - Türkçe optimize puanlama
 - **%15 Dynamic Overlap** - Context preservation  
 - **Türkçe Sentence Awareness** - Kısaltma-aware bölme
-- **Mikro Term Boosting** - Firma-specific bonus scoring
+- **Smart Scoring** - Context-aware relevance scoring
 
 ---
 
@@ -504,7 +504,7 @@ volumes:
 │   ├── 📁 Pages/                   # Razor pages
 │   ├── 📁 wwwroot/                 # Static files
 │   │   ├── 📁 css/                 # Stylesheets
-│   │   │   └── site.css            # Ana CSS (Mikro branding)
+│   │   │   └── site.css            # Ana CSS dosyası
 │   │   └── 📁 js/                  # JavaScript files
 │   │       └── site.js             # Client-side kod
 │   ├── Program.cs                  # Uygulama entry point
@@ -682,13 +682,6 @@ dotnet build --verbosity normal
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/ozgurgelekci)
 [![Email](https://img.shields.io/badge/Email-Contact-red?style=for-the-badge&logo=gmail)](mailto:your.email@example.com)
 
-### **🏢 Client**
-
-**Mikro Yazılım A.Ş.**  
-*Türkiye'nin Önde Gelen ERP Çözüm Partneri*
-
-[![Website](https://img.shields.io/badge/Website-Visit-blue?style=for-the-badge&logo=safari)](https://www.mikro.com.tr)
-[![Buluo Platform](https://img.shields.io/badge/Buluo-Platform-orange?style=for-the-badge)](https://buluo.mikro.com.tr)
 
 </div>
 
@@ -798,10 +791,10 @@ docker-compose up -d
 - **🤖 AI Intelligence** - Smart response generation with OpenAI GPT-4o-mini
 - **📚 RAG Technology** - Contextual, document-based intelligent answers
 - **💰 Token Optimization** - 90%+ cost savings with off-topic question filtering
-- **🇹🇷 Turkish Optimized** - Specialized AI for Mikro Yazılım products
+- **🇹🇷 Turkish Optimized** - Specialized AI for Turkish language support
 
 ### 🎨 **User Experience**
-- **Modern UI/UX** - Designed with Mikro Yazılım corporate identity
+- **Modern UI/UX** - Clean and professional design
 - **Mobile Responsive** - Perfect view on all devices
 - **Real-time Typing** - WhatsApp-style typing indicators
 - **Auto-scroll** - Automatic message tracking
@@ -1096,13 +1089,6 @@ dotnet build --verbosity normal
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/ozgurgelekci/)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/ozgurgelekci)
 
-### **🏢 Client**
-
-**Mikro Yazılım A.Ş.**  
-*Turkey's Leading ERP Solution Partner*
-
-[![Website](https://img.shields.io/badge/Website-Visit-blue?style=for-the-badge&logo=safari)](https://www.mikro.com.tr)
-[![Buluo Platform](https://img.shields.io/badge/Buluo-Platform-orange?style=for-the-badge)](https://buluo.mikro.com.tr)
 
 </div>
 
@@ -1142,141 +1128,5 @@ docker-compose up -d
 **⭐ If you like the project, don't forget to star it!**
 
 *Transform customer experience with modern AI! 🤖✨*
-
-</div>
-
----
-
-## 👨‍💻 Developer Information / Geliştirici Bilgileri
-
-<div align="center">
-
-<img src="https://github.com/ozgurgelekci.png" width="150" height="150" alt="Özgür Gelekçi" style="border-radius: 50%; border: 4px solid #0366d6;">
-
-### **Özgür Gelekçi**
-**Senior Backend Developer • AI/ML Specialist • Solution Architect**
-
-<p>
-<strong>🎯 Expertise:</strong> .NET, C#, ASP.NET Core, AI Integration, RAG Systems, Docker<br>
-<strong>🌍 Location:</strong> Turkey<br>
-<strong>💼 Experience:</strong> 10+ years in Enterprise Software Development<br>
-<strong>🚀 Focus:</strong> AI-powered solutions, Microservices, Cloud Architecture
-</p>
-
----
-
-### **🔗 Connect With Me**
-
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ozgurgelekci/)
-[![GitHub](https://img.shields.io/badge/-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ozgurgelekci)
-[![Email](https://img.shields.io/badge/-Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:ozgur.gelekci@example.com)
-[![Portfolio](https://img.shields.io/badge/-Portfolio-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://ozgurgelekci.dev)
-
----
-
-### **🏆 Skills & Technologies**
-
-<table>
-<tr>
-<td align="center" width="50%">
-
-**Backend Development**
-- .NET 6/7/8/9
-- ASP.NET Core Web API
-- Entity Framework Core
-- SignalR (Real-time)
-- PostgreSQL, SQL Server
-- Redis, MongoDB
-
-</td>
-<td align="center" width="50%">
-
-**AI & Machine Learning**
-- OpenAI GPT Integration
-- RAG (Retrieval-Augmented Generation)
-- Vector Databases
-- NLP, Text Processing
-- Prompt Engineering
-- AI Solution Architecture
-
-</td>
-</tr>
-<tr>
-<td align="center">
-
-**DevOps & Cloud**
-- Docker & Kubernetes
-- Azure, AWS
-- CI/CD Pipelines
-- Microservices Architecture
-- API Gateway
-- Monitoring & Logging
-
-</td>
-<td align="center">
-
-**Frontend & Full-Stack**
-- Blazor Server/WASM
-- React, Angular
-- JavaScript/TypeScript
-- HTML5, CSS3
-- Bootstrap, Tailwind
-- Responsive Design
-
-</td>
-</tr>
-</table>
-
----
-
-### **📈 GitHub Stats**
-
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=ozgurgelekci&show_icons=true&theme=radical&hide_border=true&bg_color=0D1117&title_color=F85D7F&icon_color=F85D7F&text_color=FFFFFF)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=ozgurgelekci&layout=compact&theme=radical&hide_border=true&bg_color=0D1117&title_color=F85D7F&text_color=FFFFFF)
-
----
-
-### **🏢 About This Project**
-
-Bu proje **Mikro Yazılım A.Ş.** için geliştirilmiş AI destekli müşteri destek sistemidir. Modern teknolojiler kullanılarak enterprise-grade bir çözüm sunmaktadır.
-
-*This project is an AI-powered customer support system developed for **Mikro Yazılım A.Ş.** It provides an enterprise-grade solution using modern technologies.*
-
-**📍 Company:** [Mikro Yazılım A.Ş.](https://www.mikro.com.tr) - Turkey's Leading ERP Solution Partner
-
----
-
-### **💡 Project Highlights**
-
-- **🤖 Advanced AI Integration** - OpenAI GPT-4o-mini with custom RAG pipeline
-- **⚡ Real-time Communication** - SignalR WebSocket technology  
-- **💰 Cost Optimization** - 90%+ token savings with smart filtering
-- **🏗️ Scalable Architecture** - Docker-ready microservices design
-- **🇹🇷 Turkish Optimized** - Specialized for Turkish language and culture
-- **📊 Performance Focus** - Sub-2 second AI response times
-
----
-
-### **🤝 Let's Collaborate**
-
-I'm always interested in innovative projects, especially those involving:
-- **AI/ML Solutions** - RAG, NLP, Chatbots
-- **Enterprise Applications** - Scalable backend systems
-- **Cloud Architecture** - Microservices, DevOps
-- **Real-time Systems** - SignalR, WebSockets
-
-**📧 Open for:** Freelance projects, consulting, collaboration opportunities
-
----
-
-<p align="center">
-<strong>🚀 "Building the future with AI and .NET" 🚀</strong>
-</p>
-
-<p align="center">
-<em>Passionate about creating intelligent solutions that make a difference</em><br>
-<em>AI ile geleceği şekillendiren akıllı çözümler geliştiriyorum</em>
-</p>
 
 </div>
