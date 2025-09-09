@@ -133,7 +133,7 @@ graph TB
 
 #### 1️⃣ **Projeyi Klonlayın**
 ```bash
-git clone https://github.com/ozgurgelekci/customer-support.git
+git clone https://github.com/your-username/customer-support.git
 cd customer-support
 ```
 
@@ -300,7 +300,7 @@ AI: 🧠 Comprehensive yanıt - Mikro ürün odaklı
 - **0-100 Chunk Quality Score** - Türkçe optimize puanlama
 - **%15 Dynamic Overlap** - Context preservation  
 - **Türkçe Sentence Awareness** - Kısaltma-aware bölme
-- **Smart Scoring** - Context-aware relevance scoring
+- **Mikro Term Boosting** - Firma-specific bonus scoring
 
 ---
 
@@ -504,7 +504,7 @@ volumes:
 │   ├── 📁 Pages/                   # Razor pages
 │   ├── 📁 wwwroot/                 # Static files
 │   │   ├── 📁 css/                 # Stylesheets
-│   │   │   └── site.css            # Ana CSS dosyası
+│   │   │   └── site.css            # Ana CSS (Mikro branding)
 │   │   └── 📁 js/                  # JavaScript files
 │   │       └── site.js             # Client-side kod
 │   ├── Program.cs                  # Uygulama entry point
@@ -665,38 +665,6 @@ dotnet build --verbosity normal
 - **🌍 i18n** - Çoklu dil desteği
 - **🧪 Testing** - Test coverage artırma
 
----
-
-## 👨‍💻 Geliştirici
-
-<div align="center">
-
-### **🏆 Lead Developer**
-
-<img src="https://avatars.githubusercontent.com/u/your-github-id?v=4" width="100" height="100" alt="Özgür Gelekçi" style="border-radius: 50%;">
-
-**Özgür Gelekçi**  
-*Senior Backend Developer & AI Specialist*
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/ozgurgelekci/)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/ozgurgelekci)
-[![Email](https://img.shields.io/badge/Email-Contact-red?style=for-the-badge&logo=gmail)](mailto:your.email@example.com)
-
-
-</div>
-
----
-
-## 📊 İstatistikler
-
-<div align="center">
-
-![GitHub repo size](https://img.shields.io/github/repo-size/ozgurgelekci/customer-support?style=flat-square)
-![GitHub language count](https://img.shields.io/github/languages/count/ozgurgelekci/customer-support?style=flat-square)
-![GitHub top language](https://img.shields.io/github/languages/top/ozgurgelekci/customer-support?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/ozgurgelekci/customer-support?style=flat-square)
-
-</div>
 
 ---
 
@@ -707,7 +675,7 @@ Bu proje **MIT License** altında lisanslanmıştır. Detaylar için [LICENSE](L
 ```
 MIT License
 
-Copyright (c) 2025 Özgür Gelekçi
+Copyright (c) 2025 Customer Support System
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -741,7 +709,7 @@ copies or substantial portions of the Software.
 ## 🚀 Hemen Başla!
 
 ```bash
-git clone https://github.com/ozgurgelekci/customer-support.git
+git clone https://github.com/your-username/customer-support.git
 cd customer-support
 echo "OPENAI_API_KEY=your-key-here" > .env
 docker-compose up -d
@@ -836,7 +804,7 @@ The system follows a modern layered architecture with SignalR for real-time comm
 
 #### 1️⃣ **Clone Project**
 ```bash
-git clone https://github.com/ozgurgelekci/customer-support.git
+git clone https://github.com/your-username/customer-support.git
 cd customer-support
 ```
 
@@ -1075,22 +1043,6 @@ dotnet format
 dotnet build --verbosity normal
 ```
 
----
-
-## 👨‍💻 Developer
-
-<div align="center">
-
-### **🏆 Lead Developer**
-
-**Özgür Gelekçi**  
-*Senior Backend Developer & AI Specialist*
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/ozgurgelekci/)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/ozgurgelekci)
-
-
-</div>
 
 ---
 
@@ -1115,7 +1067,7 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) file 
 ## 🚀 Get Started Now!
 
 ```bash
-git clone https://github.com/ozgurgelekci/customer-support.git
+git clone https://github.com/your-username/customer-support.git
 cd customer-support
 echo "OPENAI_API_KEY=your-key-here" > .env
 docker-compose up -d
